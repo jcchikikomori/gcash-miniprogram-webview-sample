@@ -23,8 +23,52 @@
       <p class="subtitle">
         My first website with <strong>Bulma</strong>!
       </p>
+      <br />
+      <p class="subtitle" style="font-size: 12px;">
+        Message from Mini Program: <span id="status">None</span>
+      </p>
+      <div class="buttons">
+        <a role="button" class="button" onclick="onClick()">Test Alert</a>
+        <a role="button" class="button" onclick="onClickToMenu()">Test: Go to Menu</a>
+        <a role="button" class="button" onclick="onClickToCart()">Test: Go to Cart</a>
+        <a role="button" class="button" onclick="onClickToRefresh()">Test: Refresh page</a>
+      </div>
     </div>
   </section>
+
+  <!-- 如该 H5 页面需要同时在非支付宝客户端内使用，为避免该请求404，可参考以下写法 -->
+  <!-- 请尽量在 html 头部执行以下脚本 -->
+  <script>
+    if (navigator.userAgent.indexOf('AliApp') > -1) {
+      document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
+    }
+    function onClick() {
+      // Send back to mini program
+      my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
+    }
+    function onClickToMenu() {
+      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'menu' });
+    }
+    function onClickToCart() {
+      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'cart' });
+    }
+    function onClickToRefresh() {
+      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'refresh' });
+    }
+  </script>
+
+  <script>
+    // 网页向小程序 postMessage 消息
+    // 接收来自小程序的消息。
+    // Catch postMessage from mini program
+    my.onMessage = function (e) {
+      document.getElementById("status").textContent = 'Received! \n\n(Contains: ' + JSON.stringify(e) + ')';
+    }
+    // 判断是否运行在小程序环境里
+    my.getEnv(function (res) {
+      console.log(res.miniprogram) // true
+    });
+  </script>
 </body>
 
 </html>
