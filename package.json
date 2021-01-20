@@ -1,0 +1,25 @@
+{
+  "name": "gcash-miniprogram-webview-sample",
+  "version": "0.0.1",
+  "description": "Testing GCash Mini Program hooks",
+  "main": "index.js",
+  "scripts": {
+    "index": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcchikikomori/gcash-miniprogram-webview-sample.git"
+  },
+  "keywords": [
+    "mini-program"
+  ],
+  "author": "John Cyrill Corsanes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jcchikikomori/gcash-miniprogram-webview-sample/issues"
+  },
+  "homepage": "https://github.com/jcchikikomori/gcash-miniprogram-webview-sample#readme",
+  "dependencies": {
+    "server": "^1.0.31"
+  }
+}
