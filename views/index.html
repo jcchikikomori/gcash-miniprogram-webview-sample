@@ -12,26 +12,66 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icono/1.3.0/icono.min.css"
     integrity="sha512-g1h0cHxwdMGiafnhEFEQj3VTRCt/iUzz53rRYpy8x/eL/4E17FbCitBL2RJltJZsCBDyJe3J7ByGpXAF/+zcMw=="
     crossorigin="anonymous" />
+  <style>
+    .modal-content {
+      margin-top: 25vh;
+      background-color: white;
+    }
+
+    .modal-content .container {
+      padding: 1rem;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.js"
+    integrity="sha512-1lagjLfnC1I0iqH9plHYIUq3vDMfjhZsLy9elfK89RBcpcRcx4l+kRJBSnHh2Mh6kLxRHoObD1M5UTUbgFy6nA=="
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Hello World
+        Hello World.... and GCash!
       </h1>
       <p class="subtitle">
-        My first website with <strong>Bulma</strong>!
+        Styled with <a href="https://bulma.io/" target="_blank"><strong>Bulma</strong></a>!
       </p>
       <br />
       <p class="subtitle" style="font-size: 12px;">
         Message from Mini Program: <span id="status">None</span>
       </p>
       <div class="buttons">
-        <a role="button" class="button" onclick="onClick()">Test Alert</a>
-        <a role="button" class="button" onclick="onClickToMenu()">Test: Go to Menu</a>
-        <a role="button" class="button" onclick="onClickToCart()">Test: Go to Cart</a>
-        <a role="button" class="button" onclick="onClickToRefresh()">Test: Refresh page</a>
+        <a role="button" class="button is-info is-light" onclick="onClick()">Alert</a>
+        <a role="button" class="button is-primary is-light" onclick="onClickToMenu()">Go to Menu</a>
+        <a role="button" class="button is-primary is-light" onclick="onClickToCart()">Go to Cart</a>
+        <a role="button" class="button is-info is-light" onclick="onClickToRefresh()">Refresh page</a>
+        <a role="button" class="button is-info is-light" onclick="onClickToLogin()">Login</a>
+        <a role="button" class="button is-info is-light" onclick="onClickToAuth()">Get Auth Code</a>
+        <a role="button" class="button is-danger is-light" onclick="onClickToPay()">Pay (Unstable)</a>
+      </div>
+      <div id="modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="container">
+            <h1 class="title text-center">GCash app is required!</h1>
+            <p class="subtitle">
+              Please do the following
+            </p>
+            <div class="content">
+              <ol type="1">
+                <li>Install GCash app</li>
+                <li>
+                  Create your own Mini Program with <a href="https://miniprogram.gcash.com"
+                    target="_blank">miniprogram.gcash.com</a>
+                </li>
+                <li>Publish or Debug, then you will receive an QR</li>
+                <li>Then open GCash App, login, then Scan QR</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
       </div>
     </div>
   </section>
@@ -44,16 +84,57 @@
     }
     function onClick() {
       // Send back to mini program
-      my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
+      } else {
+        showModal();
+      }
     }
     function onClickToMenu() {
-      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'menu' });
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'menu' });
+      } else {
+        showModal();
+      }
     }
     function onClickToCart() {
-      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'cart' });
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'cart' });
+      } else {
+        showModal();
+      }
     }
     function onClickToRefresh() {
-      my.postMessage({ 'sendToMiniProgram': '1', 'action': 'refresh' });
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'refresh' });
+      } else {
+        showModal();
+      }
+    }
+    function onClickToLogin() {
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'login' });
+      } else {
+        showModal();
+      }
+    }
+    function onClickToAuth() {
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'auth' });
+      } else {
+        showModal();
+      }
+    }
+    function onClickToPay() {
+      if (ifMiniProgramLoaded()) {
+        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'pay' });
+      } else {
+        showModal();
+      }
+    }
+    // check if loaded with IDE or GCash app
+    function ifMiniProgramLoaded() {
+      return typeof my !== 'undefined';
     }
   </script>
 
@@ -68,6 +149,21 @@
     my.getEnv(function (res) {
       console.log(res.miniprogram) // true
     });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('.modal-close').click(function () {
+        hideModal();
+      });
+    });
+
+    function showModal() {
+      $('#modal').show();
+    }
+    function hideModal() {
+      $('#modal').hide();
+    }
   </script>
 </body>
 
