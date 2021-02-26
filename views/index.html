@@ -79,7 +79,9 @@
   <!-- 如该 H5 页面需要同时在非支付宝客户端内使用，为避免该请求404，可参考以下写法 -->
   <!-- 请尽量在 html 头部执行以下脚本 -->
   <script>
-    if (navigator.userAgent.indexOf('AliApp') > -1) {
+    // AliApp applies only in production
+    // GCash applies only in sandbox
+    if (navigator.userAgent.indexOf('AliApp') > -1 || navigator.userAgent.indexOf('GCash') > -1) {
       document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
     }
     function onClick() {
