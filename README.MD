@@ -4,12 +4,12 @@
 
 ### Requirements
 
-- NodeJS 10
-- Yarn
+- NodeJS 10 (version 12 recommended)
+- pnpm
 
 ### Run
 
-- Run `yarn run index`
+- Run `pnpm run index`
 
 ## To-Dos
 
