@@ -4,8 +4,8 @@
 
 ### Requirements
 
-- NodeJS 10 (version 12 recommended)
-- pnpm
+- NodeJS 12
+- pnpm (run `npm install -g pnpm`)
 
 ### Run
 
@@ -14,4 +14,6 @@
 ## To-Dos
 
 - Create a separate script for Mini Program hooks
-- Apply Mini Program hooks
+- Trade Pay
+- Implement setting Auth Code seamless
+- Implement setting fake Access Token
