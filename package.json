@@ -1,6 +1,6 @@
 {
   "name": "gcash-miniprogram-webview-sample",
-  "version": "0.1.2",
+  "version": "0.1.2.1",
   "description": "Testing GCash Mini Program hooks",
   "main": "index.js",
   "scripts": {
