@@ -32,7 +32,7 @@
   <section class="section">
     <div class="container">
       <h1 class="title">
-        Hello World.... and GCash!
+        Hello World 2.... and GCash!
       </h1>
       <p class="subtitle">
         Styled with <a href="https://bulma.io/" target="_blank"><strong>Bulma</strong></a>!
@@ -42,14 +42,7 @@
         Message from Mini Program: <span id="status">None</span>
       </p>
       <div class="buttons">
-        <a role="button" class="button is-info is-light" onclick="onClick()">Alert</a>
-        <a role="button" class="button is-primary is-light" onclick="onClickToMenu()">Go to Menu</a>
-        <a role="button" class="button is-primary is-light" onclick="onClickToCart()">Go to Cart</a>
-        <a role="button" class="button is-info is-light" onclick="onClickToRefresh()">Refresh page</a>
-        <a role="button" class="button is-info is-light" onclick="onClickToLogin()">Login</a>
-        <a role="button" class="button is-info is-light" onclick="onClickToAuth()">Get Auth Code</a>
-        <a role="button" class="button is-danger is-light" onclick="onClickToPay()">Pay (Unstable)</a>
-        <a role="button" class="button is-primary" href="/second">Next Page</a>
+        <a role="button" class="button is-primary is-light" onclick="onClickToFirst()">Go to first page</a>
       </div>
       <div id="modal" class="modal">
         <div class="modal-background"></div>
@@ -85,56 +78,14 @@
     if (navigator.userAgent.indexOf('AliApp') > -1 || navigator.userAgent.indexOf('GCash') > -1) {
       document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
     }
-    function onClick() {
-      // Send back to mini program
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToMenu() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'menu' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToCart() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'cart' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToRefresh() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'refresh' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToLogin() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'login' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToAuth() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'auth' });
-      } else {
-        showModal();
-      }
-    }
-    function onClickToPay() {
-      if (ifMiniProgramLoaded()) {
-        my.postMessage({ 'sendToMiniProgram': '1', 'action': 'pay' });
-      } else {
-        showModal();
-      }
-    }
+    // function onClick() {
+    //   // Send back to mini program
+    //   if (ifMiniProgramLoaded()) {
+    //     my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
+    //   } else {
+    //     showModal();
+    //   }
+    // }
     // check if loaded with IDE or GCash app
     function ifMiniProgramLoaded() {
       return typeof my !== 'undefined';
@@ -156,6 +107,9 @@
 
   <script>
     $(document).ready(function () {
+      if (!ifMiniProgramLoaded()) {
+        showModal();
+      }
       $('.modal-close').click(function () {
         hideModal();
       });
@@ -166,6 +120,9 @@
     }
     function hideModal() {
       $('#modal').hide();
+    }
+    function onClickToFirst() {
+      window.history.back();
     }
   </script>
 </body>
