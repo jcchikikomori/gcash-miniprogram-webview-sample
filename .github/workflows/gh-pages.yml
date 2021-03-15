@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/pnpm-js-setup
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
