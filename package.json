@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/jcchikikomori/gcash-miniprogram-webview-sample#readme",
   "dependencies": {
-    "server": "^1.0.31"
+    "server": "^1.0.36"
   },
   "pnpm": {
     "overrides": {
