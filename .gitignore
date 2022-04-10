@@ -130,3 +130,7 @@ dist
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn
+
+public/**/*
+!public/.gitinclude
+!public/*.html

@@ -1,0 +1,10 @@
+@import '../../node_modules/bulma/bulma';
+
+.modal-content {
+  margin-top: 25vh;
+  background-color: white;
+
+  .container {
+    padding: 1rem;
+  }
+}
