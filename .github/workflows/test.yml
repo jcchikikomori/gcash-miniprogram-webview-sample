@@ -24,6 +24,6 @@ jobs:
       - name: Install and Build 🔧
         run: |
           npm install -g pnpm
-          pnpm install
+          pnpm install --no-frozen-lockfile
           pnpm run build --mode=production
           pnpm run build/css
