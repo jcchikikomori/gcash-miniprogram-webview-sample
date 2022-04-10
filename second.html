@@ -6,26 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Program Test</title>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css"
-    integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA=="
-    crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icono/1.3.0/icono.min.css"
-    integrity="sha512-g1h0cHxwdMGiafnhEFEQj3VTRCt/iUzz53rRYpy8x/eL/4E17FbCitBL2RJltJZsCBDyJe3J7ByGpXAF/+zcMw=="
-    crossorigin="anonymous" />
-  <style>
-    .modal-content {
-      margin-top: 25vh;
-      background-color: white;
-    }
-
-    .modal-content .container {
-      padding: 1rem;
-    }
-  </style>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.js"
-    integrity="sha512-1lagjLfnC1I0iqH9plHYIUq3vDMfjhZsLy9elfK89RBcpcRcx4l+kRJBSnHh2Mh6kLxRHoObD1M5UTUbgFy6nA=="
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/miniprogram.css" />
+  <script src="js/miniprogram.js"></script>
 </head>
 
 <body>
@@ -42,7 +24,7 @@
         Message from Mini Program: <span id="status">None</span>
       </p>
       <div class="buttons">
-        <a role="button" class="button is-primary is-light" onclick="onClickToFirst()">Go to first page</a>
+        <a role="button" class="button is-primary is-light" id="onClickToFirst">Go to first page</a>
         <a role="button" class="button is-primary" href="../">Go to first page (mode 2)</a>
       </div>
       <div id="modal" class="modal">
@@ -70,62 +52,6 @@
       </div>
     </div>
   </section>
-
-  <!-- 如该 H5 页面需要同时在非支付宝客户端内使用，为避免该请求404，可参考以下写法 -->
-  <!-- 请尽量在 html 头部执行以下脚本 -->
-  <script>
-    // AliApp applies only in production
-    // GCash applies only in sandbox
-    if (navigator.userAgent.indexOf('AliApp') > -1 || navigator.userAgent.indexOf('GCash') > -1) {
-      document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
-    }
-    // function onClick() {
-    //   // Send back to mini program
-    //   if (ifMiniProgramLoaded()) {
-    //     my.postMessage({ 'sendToMiniProgram': '0', 'action': 'none' });
-    //   } else {
-    //     showModal();
-    //   }
-    // }
-    // check if loaded with IDE or GCash app
-    function ifMiniProgramLoaded() {
-      return typeof my !== 'undefined';
-    }
-  </script>
-
-  <script>
-    // 网页向小程序 postMessage 消息
-    // 接收来自小程序的消息。
-    // Catch postMessage from mini program
-    my.onMessage = function (e) {
-      document.getElementById("status").textContent = 'Received! \n\n(Contains: ' + JSON.stringify(e) + ')';
-    }
-    // 判断是否运行在小程序环境里
-    my.getEnv(function (res) {
-      console.log(res.miniprogram) // true
-    });
-  </script>
-
-  <script>
-    $(document).ready(function () {
-      if (!ifMiniProgramLoaded()) {
-        showModal();
-      }
-      $('.modal-close').click(function () {
-        hideModal();
-      });
-    });
-
-    function showModal() {
-      $('#modal').show();
-    }
-    function hideModal() {
-      $('#modal').hide();
-    }
-    function onClickToFirst() {
-      window.history.back();
-    }
-  </script>
 </body>
 
 </html>
