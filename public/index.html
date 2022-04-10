@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Program Test</title>
+
+  <link rel="stylesheet" href="css/miniprogram.css" />
+  <script src="js/miniprogram.js"></script>
+</head>
+
+<body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Hello World.... and GCash!
+      </h1>
+      <p class="subtitle">
+        Styled with <a href="https://bulma.io/" target="_blank"><strong>Bulma</strong></a>!
+      </p>
+      <br />
+      <p class="subtitle" style="font-size: 12px;">
+        Message from Mini Program: <span id="status">None</span>
+      </p>
+      <div class="buttons">
+        <a role="button" class="button is-info is-light" id="onClick">Alert</a>
+        <a role="button" class="button is-primary is-light" id="onClickToMenu">Go to Menu</a>
+        <a role="button" class="button is-primary is-light" id="onClickToCart">Go to Cart</a>
+        <a role="button" class="button is-info is-light" id="onClickToRefresh">Refresh page</a>
+        <a role="button" class="button is-info is-light" id="onClickToLogin">Login</a>
+        <a role="button" class="button is-info is-light" id="onClickToAuth">Get Auth Code</a>
+        <a role="button" class="button is-danger is-light" id="onClickToPay">Pay (Unstable)</a>
+        <a role="button" class="button is-primary" href="./second.html">Next Page</a>
+      </div>
+      <div id="modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="container">
+            <h1 class="title text-center">GCash app is required!</h1>
+            <p class="subtitle">
+              Please do the following
+            </p>
+            <div class="content">
+              <ol type="1">
+                <li>Install GCash app</li>
+                <li>
+                  Create your own Mini Program with <a href="https://miniprogram.gcash.com"
+                    target="_blank">miniprogram.gcash.com</a>
+                </li>
+                <li>Publish or Debug, then you will receive an QR</li>
+                <li>Then open GCash App, login, then Scan QR</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>
