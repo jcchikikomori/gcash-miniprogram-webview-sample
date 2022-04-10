@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "server": "pnpm run build/css && node server.js",
-    "build": "webpack",
+    "build": "webpack --mode=production",
+    "build/dev": "webpack",
     "build/css": "node-sass --omit-source-map-url --importer node_modules/node-sass-import src/scss/miniprogram.scss public/css/miniprogram.css"
   },
   "repository": {

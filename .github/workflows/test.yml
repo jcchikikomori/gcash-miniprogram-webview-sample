@@ -1,5 +1,5 @@
 # Reference: https://dev.to/pierresaid/deploy-node-projects-to-github-pages-with-github-actions-4jco
-name: Build and Deploy
+name: Build Test
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
       - hotfix/*
       - develop
 jobs:
-  build-and-deploy:
+  build-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,5 +25,5 @@ jobs:
         run: |
           npm install -g pnpm
           pnpm install --no-frozen-lockfile
-          pnpm run build --mode=production
+          pnpm run build
           pnpm run build/css
