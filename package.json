@@ -28,7 +28,10 @@
   },
   "pnpm": {
     "overrides": {
-      "minimist@<1.2.6": ">=1.2.6"
+      "minimist@<1.2.6": ">=1.2.6",
+      "path-parse@<1.0.7": ">=1.0.7",
+      "yargs-parser@>=6.0.0 <13.1.2": ">=13.1.2",
+      "mem@<4.0.0": ">=4.0.0"
     }
   },
   "devDependencies": {
