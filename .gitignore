@@ -131,6 +131,10 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn
 
+.DS_Store
+
 public/**/*
 !public/.gitinclude
 !public/*.html
+!public/img/*
+!public/img/.gitinclude
