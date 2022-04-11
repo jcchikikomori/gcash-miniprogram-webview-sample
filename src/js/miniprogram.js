@@ -12,8 +12,7 @@
 
 import $ from "jquery";
 
-// isMiniProgram is reserved variable. Already defined in application.js
-var _isMiniProgram = false;
+let _isMiniProgram = false;
 var _miniProgramDataExists = false;
 var _path = window.location.pathname;
 var _userInfo = {
@@ -42,6 +41,7 @@ function redirectUrl(url) {
 
 /**
  * Update _isMiniProgram
+ * NOTE: Only use this on initializers
  */
 function setIsMiniProgram() {
   _isMiniProgram = typeof my !== "undefined";
@@ -55,7 +55,6 @@ function reloadMiniProgram() {
   _path = window.location.pathname;
   // Re-initialize
   if (/AliApp|Alipay|GCash/i.test(USER_AGENT)) {
-    // _isMiniProgram = typeof my !== "undefined"
     setIsMiniProgram();
     if (!_isMiniProgram) {
       // This script can only be used inside the GCash app
@@ -74,8 +73,7 @@ function reloadMiniProgram() {
     // Catch postMessage from Mini Program
     my.onMessage = function (e) {
       // Put status
-      document.getElementById("status").textContent =
-        "Received! \n\n(Contains: " + JSON.stringify(e) + ")";
+      $("#status").text("Received! \n\n(Contains: " + JSON.stringify(e) + ")");
       // update the path on listen
       _path = window.location.pathname;
       console.log(JSON.stringify(e));
@@ -189,73 +187,72 @@ function reloadMiniProgram() {
  */
 function initMiniProgram() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    // Example path
-    // TODO: Create separate path for Checkout
-    if (_path.includes("checkout")) {
-      try {
-        my.postMessage({ sendToMiniProgram: "1", action: "requestUserInfo" });
-      } catch (error) {
-        if (error instanceof ReferenceError) {
-          console.warn(noMiniProgramDetected);
-        }
+  // Example path
+  // TODO: Create separate path for Checkout
+  if (_path.includes("checkout")) {
+    try {
+      my.postMessage({ sendToMiniProgram: "1", action: "requestUserInfo" });
+    } catch (error) {
+      if (error instanceof ReferenceError) {
+        console.warn(noMiniProgramDetected);
       }
     }
-    // TODO: Create separate path for Trade Pay
-    else if (_path.includes("payment")) {
-      tradePay();
-    }
+  }
+  // TODO: Create separate path for Trade Pay
+  else if (_path.includes("payment")) {
+    tradePay();
+  }
+  // second.html
+  else if (_path.includes("second")) {
+    miniProgramLog("Second page initialized!");
   }
 }
 
 function onClickToLogin() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "login" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-        showModal();
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "login" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
+/**
+ * Opt-In (a.k.a. Login with GCash)
+ */
 function onClickToAuth() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "auth" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-        showModal();
-      }
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "optIn",
+      message: "Opt-In",
+      data: {
+        // Needed to send back the link with guest params
+        href: $(this).attr("href"),
+      },
+    });
+    return false;
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function onClickToPay() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "pay" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-        showModal();
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "pay" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
@@ -274,139 +271,110 @@ function getUserInfoCached() {
   return _userInfo;
 }
 
-function onClick() {
-  reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "0", action: "none" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-        showModal();
-      }
-    }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
-  }
-}
+// function onClick() {
+//   reloadMiniProgram();
+//   if (_isMiniProgram) {
+//     try {
+//       my.postMessage({ sendToMiniProgram: "0", action: "none" });
+//     } catch (error) {
+//       if (error instanceof ReferenceError) {
+//         console.warn(noMiniProgramDetected);
+//         showModal();
+//       }
+//     }
+//   } else {
+//     console.warn(noMiniProgramDetected);
+//     showModal();
+//   }
+// }
 
 function onClickToMenu() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "menu" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "menu" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function onClickToCart() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "cart" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "cart" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function onClickToRefresh() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "refresh" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "refresh" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function showTabBar() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "showTabBar" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "showTabBar" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function hideTabBar() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({ sendToMiniProgram: "1", action: "hideTabBar" });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({ sendToMiniProgram: "1", action: "hideTabBar" });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function showLoadingMiniProgram() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    try {
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "showLoadingMiniProgram",
-      });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "showLoadingMiniProgram",
+    });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
 function hideLoadingMiniProgram() {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    console.info("hideLoadingMiniProgram() called");
-    try {
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "hideLoadingMiniProgram",
-      });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "hideLoadingMiniProgram",
+    });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
@@ -417,22 +385,18 @@ function hideLoadingMiniProgram() {
  */
 function miniProgramAlert(message) {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    console.info("miniProgramAlert() called");
-    try {
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "alert",
-        message: message,
-      });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  console.info("miniProgramAlert() called");
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "alert",
+      message: message,
+    });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
@@ -443,22 +407,17 @@ function miniProgramAlert(message) {
  */
 function miniProgramLog(message) {
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    console.info("miniProgramLog() called");
-    try {
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "log",
-        message: message,
-      });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "log",
+      message: message,
+    });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
@@ -473,28 +432,24 @@ function tradePay() {
     return;
   }
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    // Send back to Mini Program
-    try {
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "generatePayment",
-        message: {
-          data: {
-            orderUuid: _orderUuid,
-            currentUrl: _currentUrl,
-            notifyUrl: _notifyUrl,
-          },
+  // Send back to Mini Program
+  try {
+    my.postMessage({
+      sendToMiniProgram: "1",
+      action: "generatePayment",
+      message: {
+        data: {
+          orderUuid: _orderUuid,
+          currentUrl: _currentUrl,
+          notifyUrl: _notifyUrl,
         },
-      });
-    } catch (error) {
-      if (error instanceof ReferenceError) {
-        console.warn(noMiniProgramDetected);
-      }
+      },
+    });
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
     }
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
   }
 }
 
@@ -510,8 +465,8 @@ function tradePayValid() {
     return;
   }
   reloadMiniProgram();
-  if (_isMiniProgram) {
-    // Send back to Mini Program
+  // Send back to Mini Program
+  try {
     my.postMessage({
       sendToMiniProgram: "1",
       action: "generatePayment",
@@ -523,9 +478,11 @@ function tradePayValid() {
         },
       },
     });
-  } else {
-    console.warn(noMiniProgramDetected);
-    showModal();
+  } catch (error) {
+    if (error instanceof ReferenceError) {
+      console.warn(noMiniProgramDetected);
+      showModal();
+    }
   }
 }
 
@@ -589,6 +546,7 @@ function sendCartStatusToMiniProgram() {
     } catch (error) {
       if (error instanceof ReferenceError) {
         console.warn(noMiniProgramDetected);
+        showModal();
       }
     }
   }
@@ -616,8 +574,6 @@ function onClickToFirst() {
 }
 
 $(function () {
-  reloadMiniProgram();
-
   // Log the User Agent string
   // console.info(navigator.userAgent)
   // Update the path
@@ -635,6 +591,7 @@ $(function () {
   }
 
   // View Cart via Mini Program
+  // TODO: Use function calls
   $("#viewCart").on("click", function (e) {
     reloadMiniProgram();
     if (_isMiniProgram) {
@@ -649,6 +606,7 @@ $(function () {
   });
 
   // Back to Menu
+  // TODO: Use function calls
   $("#backToMenu").on("click", function (e) {
     reloadMiniProgram();
     if (_isMiniProgram) {
@@ -663,23 +621,17 @@ $(function () {
   });
 
   // This is will be a most stable one
+  // TODO: Use function calls
   $(".tradeForm").on("submit", function (e) {
     reloadMiniProgram();
     if (isMiniProgram) {
       // log
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "log",
-        message: "!! tradeForm submit state !!",
-      });
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "log",
-        message: "Submitted on other page. Skipped Trade Pay call",
-      });
+      miniProgramLog("!! tradeForm submit state !!");
+      miniProgramLog("Submitted on other page. Skipped Trade Pay call");
     }
   });
 
+  // TODO: Use function calls
   $(".backToOrderSummaryBtn").on("click", function (e) {
     reloadMiniProgram();
     if (isMiniProgram) {
@@ -694,27 +646,9 @@ $(function () {
     }
   });
 
-  // Opt-In (a.k.a. Login with GCash)
-  $("#allowOptIn").on("click", function (e) {
-    reloadMiniProgram();
-    if (_isMiniProgram) {
-      e.preventDefault();
-      my.postMessage({
-        sendToMiniProgram: "1",
-        action: "allowOptIn",
-        message: "Allow Opt-In",
-        data: {
-          // Needed to send back the link with guest params
-          href: $(this).attr("href"),
-        },
-      });
-      return false;
-    }
-  });
-
   $("#onClick").on("click", function (e) {
     e.preventDefault();
-    onClick();
+    miniProgramAlert();
   });
 
   $("#onClickToMenu").on("click", function (e) {
