@@ -1,6 +1,11 @@
-# Mini Program Sample
+# Mini Program's WebView Mocking Server
+
+For GCash & other AliPay-powered Mini Programs
 
 ## Testing
+
+![Scan QR to WebView](public/img/test1.gif)
+![WebView tests](public/img/test3.gif)
 
 ### Requirements
 
@@ -9,11 +14,13 @@
 
 ### Run
 
-- Run `pnpm run index`
+- Run `pnpm run server`
+
+### Building
+
+- Run `pnpm run build`
+- Also run `pnpm run build/css` for CSS
 
 ## To-Dos
 
-- Create a separate script for Mini Program hooks
-- Trade Pay
-- Implement setting Auth Code seamless
-- Implement setting fake Access Token
+Please refer to issues tab on Github
