@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/*
+      - release/*
       - hotfix/*
       - develop
 jobs:

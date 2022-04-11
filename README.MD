@@ -14,7 +14,12 @@ For GCash & other AliPay-powered Mini Programs
 
 ### Run
 
-- Run `pnpm run index`
+- Run `pnpm run server`
+
+### Building
+
+- Run `pnpm run build`
+- Also run `pnpm run build/css` for CSS
 
 ## To-Dos
 
